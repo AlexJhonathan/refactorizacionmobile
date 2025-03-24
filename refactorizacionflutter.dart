@@ -1,23 +1,29 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  var l = [];
-  var t = 0.0;
+  var listaProductos = [];
+  var totalPrecio = 0.0;
   
-  void a(String n, double p, int q) {
+  void agregarProducto(String nombreProducto, double precioProducto, int cantidadProducto) {
     setState(() {
-      l.add({"n": n, "p": p, "q": q});
-      c();
+      listaProductos.add({"Nombre Producto": nombreProducto, "Precio Producto": precioProducto, "Cantidad Producto": cantidadProducto});
+      calcularTotalPrecio();
     });
   }
   
-  void c() {
-    t = 0;
-    for (var i = 0; i < l.length; i++) {
-      t += l[i]["p"] * l[i]["q"];
+  void calcularTotalPrecio() {
+    totalPrecio = 0;
+    for (var i = 0; i < listaProductos.length; i++) {
+      totalPrecio += listaProductos[i]["Precio Producto"] * listaProductos[i]["Cantidad Producto"];
     }
   }
   
@@ -28,15 +34,16 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(title: Text("Mi App")),
         body: Column(
           children: [
-            // Interfaz para agregar productos...
-            Text("Total: \$${t.toStringAsFixed(2)}"),
+
+            // Interfaz donde se listan los productos almacenados en la lista de productos
+            Text("Total: \$${totalPrecio.toStringAsFixed(2)}"),
             Expanded(
               child: ListView.builder(
-                itemCount: l.length,
+                itemCount: listaProductos.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    title: Text(l[index]["n"]),
-                    subtitle: Text("Precio: \$${l[index]["p"]} x ${l[index]["q"]}"),
+                    title: Text(listaProductos[index]["Nombre Producto"]),
+                    subtitle: Text("Precio: \$${listaProductos[index]["Precio Producto"]} x ${listaProductos[index]["Cantidad Producto"]}"),
                   );
                 },
               ),
